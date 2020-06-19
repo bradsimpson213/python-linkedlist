@@ -27,7 +27,7 @@ class LinkedList:
       self._head = new_node
       self._tail = new_node
     else:
-      self._tail.next = new_node
+      self._tail._next = new_node
       self._tail = new_node
     self._length += 1
 
@@ -38,7 +38,7 @@ class LinkedList:
       self._head = new_node
       self._tail = new_node
     else:
-      new_node.next = self._head
+      new_node._next = self._head
       self._head = new_node
     self._length += 1
 
@@ -51,7 +51,7 @@ class LinkedList:
       self._tail = None
       self._length -= 1
     else:
-      self._head = self._head.next
+      self._head = self._head._next
       self._length -= 1
     
 
@@ -64,7 +64,7 @@ class LinkedList:
       self._length -= 1
     else:
       node = self.get_node(self._length - 1)
-      node.next = None
+      node._next = None
       self._tail = node
       self._length -= 1
 
@@ -95,15 +95,12 @@ class LinkedList:
       next_node = prev_node._next
       prev_node._next = new_node
       new_node._next = next_node
-      self._length += 1
-
-
-  # TODO: Implement the update_value method here
+  
   def update_value(self, position, value):
     node = self.get_node(position)
     node._value = value
 
-  # TODO: Implement the remove_node method here
+ 
   def remove_node(self, position):
     if position == 0:
       self.remove_head()
@@ -115,9 +112,50 @@ class LinkedList:
       prev_node._next = node._next
       self._length -= 1
 
-  # TODO: Implement the __str__ method here
-  # def __str__(self):
-  #   pass
+  def __str__(self):
+    if self._length == 0:
+      return 'Empty List'
+    list_array = []
+    node = self._head
+    for i in range(0, self._length):
+      list_array.append(node._value)
+      node = node._next
+
+    return ', '.join(list_array)
+
+
+
+
+
+# Phase 2 Manual Testing
+
+# # 1. Test whether the list contains_value a value
+linked_list = LinkedList()
+linked_list.add_to_head('new head node')
+print(linked_list.contains_value('new head node'))      # True
+print(linked_list.contains_value('App Academy node'))   # False
+
+# # 2. Test inserting a node value into the list at a specific position
+linked_list.insert_value(0, 'hello!')
+linked_list.insert_value(1, 'james!')
+print(linked_list.get_node(0)._value)                # `hello!`
+
+# # 3. Test updating a list node's value at a specific position
+linked_list.update_value(0, 'goodbye!')
+print(linked_list.get_node(0)._value)                   # `goodbye!`
+
+# # 4. Test removing a node value from the list at a specific position
+print(linked_list.get_node(1)._value)                   # `new head node`
+linked_list.remove_node(1)
+print(linked_list.get_node(1))                          # None
+
+# # 5. Format the list as a string whenever `print()` is invoked
+new_linked_list = LinkedList()
+print(new_linked_list)                  # Empty List
+new_linked_list.add_to_tail('puppies')
+print(new_linked_list)                  # puppies
+new_linked_list.add_to_tail('kittens')
+print(new_linked_list)                  # puppies, kittens
 
 # Phase 1 Manual Testing:
 
@@ -161,34 +199,3 @@ class LinkedList:
 # # # 7. Test returning the list length
 # print(len(linked_list))                                 # 2
 # print('---------------')
-
-
-
-# Phase 2 Manual Testing
-
-# # 1. Test whether the list contains_value a value
-linked_list = LinkedList()
-linked_list.add_to_head('new head node')
-print(linked_list.contains_value('new head node'))      # True
-print(linked_list.contains_value('App Academy node'))   # False
-
-# # 2. Test inserting a node value into the list at a specific position
-linked_list.insert_value(0, 'hello!')
-print(linked_list.get_node(0)._value)                   # `hello!`
-
-# # 3. Test updating a list node's value at a specific position
-linked_list.update_value(0, 'goodbye!')
-print(linked_list.get_node(0)._value)                   # `goodbye!`
-
-# # 4. Test removing a node value from the list at a specific position
-print(linked_list.get_node(1)._value)                   # `new head node`
-linked_list.remove_node(1)
-print(linked_list.get_node(1))                          # None
-
-# # 5. Format the list as a string whenever `print()` is invoked
-# new_linked_list = LinkedList()
-# print(new_linked_list)                  # Empty List
-# new_linked_list.add_to_tail('puppies')
-# print(new_linked_list)                  # puppies
-# new_linked_list.add_to_tail('kittens')
-# print(new_linked_list)                  # puppies, kittens
